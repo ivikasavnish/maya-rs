@@ -1,0 +1,16 @@
+# Example user unit: clone to ~/maya-rs (or edit the paths), then see README "Operate".
+[Unit]
+Description=Maya2 Native streaming speech worker, Rust/candle (RTX 3060)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=%h/maya-rs
+ExecStart=%h/maya-rs/target/release/maya-rs --host 127.0.0.1 --port 8809 --model-dir %h/maya-rs/models/maya2-native --mimi %h/maya-rs/models/mimi/model.safetensors --capacity 2048 --max-seats 6 --max-pending 4 --queue-deadline-ms 5000 --textnorm %h/maya-rs/textnorm/serve.py
+Restart=on-failure
+RestartSec=15
+TimeoutStopSec=30
+
+[Install]
+WantedBy=default.target

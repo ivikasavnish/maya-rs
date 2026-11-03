@@ -1,0 +1,14 @@
+maya-rs
+Copyright 2026 the maya-rs authors
+
+A Rust (candle) port of the Maya2 Native / maya3 speech server by Maya Research
+(https://huggingface.co/maya-research/maya2-native), Apache License 2.0. The model architecture, sampling, stop
+and loop-guard logic follow the upstream Python implementation.
+
+textnorm/maya3 is the upstream maya3 text normaliser, copied unmodified (Apache License 2.0, see textnorm/LICENSE).
+textnorm/maya3/text/tn/assamese_numbers.py contains data from AI4Bharat/indic-numtowords (MIT, see
+assamese_numbers.LICENSE next to it).
+
+Weights used at runtime (not distributed here):
+- maya-research/maya2-native, Apache License 2.0, built on Qwen3-1.7B (Apache License 2.0)
+- kyutai/mimi audio codec, Creative Commons Attribution 4.0 (CC-BY-4.0), (c) Kyutai

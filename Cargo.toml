@@ -1,0 +1,31 @@
+[package]
+name = "maya-rs"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+candle-core = { version = "0.11.1", features = ["cuda"] }
+candle-nn = { version = "0.11.1", features = ["cuda"] }
+candle-transformers = { version = "0.11.1", features = ["cuda"] }
+tokenizers = { version = "0.22", default-features = false, features = ["onig"] }
+axum = { version = "0.8", features = ["ws"] }
+tokio = { version = "1", features = ["full"] }
+tokio-stream = "0.1"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+rand = "0.9"
+anyhow = "1"
+regex = "1"
+bytes = "1"
+uuid = { version = "1", features = ["v4"] }
+half = "2"
+futures = "0.3"
+base64 = "0.22"
+mp3lame-encoder = "0.2"
+opus = "0.3"
+ogg = "0.9"
+flacenc = "0.5"
+
+[profile.release]
+opt-level = 3
+lto = "thin"
