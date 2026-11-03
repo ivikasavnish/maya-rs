@@ -123,6 +123,7 @@ impl Normaliser {
         if res.is_err() {
             if let Some((mut c, _, _)) = self.proc.take() {
                 let _ = c.kill();
+                let _ = c.wait(); // reap it, so a crashing normaliser does not pile up zombies
             }
         }
         res
@@ -286,6 +287,10 @@ async fn start_job(app: &Arc<App>, r: Req, via: &str) -> Result<Started, ApiErro
         let (t, l, app2) = (r.text.clone(), r.lang.clone(), app.clone());
         let res = tokio::task::spawn_blocking(move || app2.norm.as_ref().unwrap().lock().unwrap().call(&t, &l)).await;
         match res {
+            // numbers and symbols expand when spelled out; a runaway expansion must not bypass the input limit
+            Ok(Ok(out)) if out.chars().count() > 3 * MAX_TEXT_CHARS => {
+                return Err(bad(format!("input expands to more than {} characters when normalised", 3 * MAX_TEXT_CHARS), Some("input")));
+            }
             Ok(Ok(out)) if !out.trim().is_empty() => {
                 prepared = out;
                 normalised = true;
